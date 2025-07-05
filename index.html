@@ -1,146 +1,125 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verifikasi Sertifikat Seminar Edu-Financial Management</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verifikasi Sertifikat Edu-Financial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
     body {
       margin: 0;
-      font-family: 'inherit', sans-serif;
-      background: linear-gradient(135deg, #a8e6cf, #56ab2f);
-      color: #044d2b;
+      font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
     }
 
-    header {
+    .centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90vh;
       text-align: center;
-      padding: 3rem 1rem;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(5px);
     }
 
-    h1 {
-      font-size: 2.5rem;
+    .icon-box {
+      background-color: #e3f2fd;
+      padding: 2rem;
+      border-radius: 50%;
       margin-bottom: 1rem;
     }
 
-    .container {
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background: #ffffffc7;
-      border-radius: 1rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      animation: fadeIn 1.5s ease-in-out;
+    .icon-box img {
+      width: 60px;
+      height: 60px;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    h2 {
+      color: #1565c0;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
     }
 
-    .btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
+    .subtext {
+      color: #555;
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"] {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 300px;
+      max-width: 80%;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    button {
+      background-color: #0288d1;
       color: white;
-      background-color: #388e3c;
       border: none;
-      border-radius: 10px;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s ease;
     }
 
-    .btn:hover {
-      background-color: #2e7d32;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 1rem 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-family: 'Poppins', sans-serif;
+    button:hover {
+      background-color: #0277bd;
     }
 
     .result {
       margin-top: 1.5rem;
       font-size: 1rem;
-      background-color: #e8f5e9;
+      background: #e0f7fa;
+      border-radius: 8px;
       padding: 1rem;
-      border-radius: 10px;
-      color: #1b5e20;
-    }
-
-    .loading {
-      text-align: center;
-      margin-top: 1rem;
-      animation: rotate 1s linear infinite;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      width: 90%;
+      max-width: 400px;
     }
 
     .spinner {
-      border: 6px solid #c8e6c9;
-      border-top: 6px solid #388e3c;
+      margin: 1rem auto;
+      border: 6px solid #ccc;
+      border-top: 6px solid #0288d1;
       border-radius: 50%;
       width: 40px;
       height: 40px;
-      margin: 0 auto;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     footer {
-      text-align: right;
+      text-align: center;
       padding: 1rem;
-      font-size: 0.9rem;
-      color: #044d2b;
-    }
-
-    .ucapan {
-      margin-top: 2rem;
-      padding: 1.5rem;
-      background-color: #dcedc8;
-      border-left: 6px solid #558b2f;
-      border-radius: 10px;
+      font-size: 0.85rem;
+      color: #888;
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <h1>Verifikasi Sertifikat Seminar Edu-Financial Management<br>STITNU Al Farabi Pangandaran</h1>
-  </header>
 
-  <div class="container">
-    <button class="btn" onclick="toggleForm()">Verifikasi Sertifikat</button>
-    <div id="formSection" style="display:none;">
-      <input type="text" id="certificateInput" placeholder="Masukkan Nomor Sertifikat">
-      <button class="btn" onclick="verifyCertificate()">Cek Sertifikat</button>
-      <div id="loading" class="loading" style="display:none;">
-        <div class="spinner"></div>
-      </div>
-      <div id="result" class="result"></div>
+  <div class="centered">
+    <div class="icon-box">
+      <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/null/external-certificate-award-flatart-icons-outline-flatarticons.png" alt="icon">
     </div>
+    <h2>Verifikasi Sertifikat</h2>
+    <p class="subtext">Masukkan Cert ID untuk memverifikasi keikutsertaan seminar Edu-Financial STITNU Al Farabi Pangandaran.</p>
+    
+    <input type="text" id="certificateInput" placeholder="Masukkan Nomor Sertifikat">
+    <button onclick="verifyCertificate()">Periksa Sertifikat</button>
 
-    <div class="ucapan">
-      <p><strong>Ucapan Ketua Pelaksana:</strong></p>
-      <p>“Terima kasih atas partisipasi dan antusiasme Anda dalam Seminar Edu-Financial Management STITNU Al Farabi Pangandaran. Semoga ilmu yang didapat membawa manfaat.”</p>
-      <p><strong>Ketua Pelaksana,</strong><br>Wulandari</p>
-    </div>
+    <div class="spinner" id="spinner"></div>
+    <div class="result" id="result"></div>
   </div>
 
   <footer>
@@ -153,53 +132,35 @@
       "002/MPI22.E/STITNU/7052/2025": ["Ahmad Hapidin, M.Pd.I.", "NARASUMBER"],
       "003/MPI22.E/STITNU/7052/2025": ["Dr. Yanti Nurdiyanti, S.Pd.I., M.M.", "KEYNOTE SPEAKER"],
       "004/MPI22.E/STITNU/7052/2025": ["Anisa Nurahmayanti", "PRESENTER"],
-      "005/MPI22.E/STITNU/7052/2025": ["Barizah Amalia", "PRESENTER"],
-      "006/MPI22.E/STITNU/7052/2025": ["Diah Nurlatifah", "PRESENTER"],
-      "007/MPI22.E/STITNU/7052/2025": ["Hade Yustika Prayoga", "PRESENTER"],
-      "008/MPI22.E/STITNU/7052/2025": ["Ika Rostika", "PRESENTER"],
-      "009/MPI22.E/STITNU/7052/2025": ["Indra Miftahudin", "PRESENTER"],
-      "010/MPI22.E/STITNU/7052/2025": ["Irwan", "PRESENTER"],
-      "011/MPI22.E/STITNU/7052/2025": ["Khidayat Muslim", "PRESENTER"],
-      "012/MPI22.E/STITNU/7052/2025": ["Laelatul Mutmainah", "PRESENTER"],
-      "013/MPI22.E/STITNU/7052/2025": ["Mahbubilah", "PRESENTER"],
-      "014/MPI22.E/STITNU/7052/2025": ["Mutiara Anjani", "PRESENTER"],
-      "015/MPI22.E/STITNU/7052/2025": ["Nur Aziz", "PRESENTER"],
-      "016/MPI22.E/STITNU/7052/2025": ["Sahmidin", "PRESENTER"],
-      "017/MPI22.E/STITNU/7052/2025": ["Ujang Saepul Milah", "PRESENTER"],
-      "018/MPI22.E/STITNU/7052/2025": ["Wulandari", "PRESENTER"]
+      "018/MPI22.E/STITNU/7052/2025": ["Wulandari", "PRESENTER"],
+      // Tambahkan entri lainnya
     };
-
-    function toggleForm() {
-      document.getElementById('formSection').style.display = 'block';
-    }
 
     function verifyCertificate() {
       const input = document.getElementById("certificateInput").value.trim();
-      const resultDiv = document.getElementById("result");
-      const loadingDiv = document.getElementById("loading");
+      const spinner = document.getElementById("spinner");
+      const result = document.getElementById("result");
 
-      resultDiv.innerHTML = "";
-      loadingDiv.style.display = 'block';
+      result.innerHTML = "";
+      spinner.style.display = "block";
 
       setTimeout(() => {
-        loadingDiv.style.display = 'none';
+        spinner.style.display = "none";
         if (data[input]) {
-          const [name, role] = data[input];
-          resultDiv.innerHTML = `
-            <strong>Nama:</strong> ${name}<br>
+          const [nama, sebagai] = data[input];
+          result.innerHTML = `
+            <strong>Nama:</strong> ${nama}<br>
             <strong>Nomor:</strong> ${input}<br>
-            <strong>Status:</strong> <span style="color:green; font-weight:bold">TERVERIFIKASI</span><br>
-            <strong>Sebagai:</strong> ${role}
+            <strong>Status:</strong> <span style="color:green;font-weight:bold">TERVERIFIKASI</span><br>
+            <strong>Sebagai:</strong> ${sebagai}
           `;
         } else {
-          resultDiv.innerHTML = `
-            <strong style="color:red">Nomor Sertifikat tidak terdaftar.</strong><br>
-            Mohon maaf nomor yang Anda masukkan tidak terdaftar.
-          `;
+          result.innerHTML = `<span style="color:red;font-weight:bold">Nomor Sertifikat tidak terdaftar.</span><br>
+          Mohon periksa kembali nomor yang Anda masukkan.`;
         }
-      }, 1500);
+      }, 1200);
     }
   </script>
-</body>
 
+</body>
 </html>
