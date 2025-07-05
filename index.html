@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifikasi Sertifikat Seminar Edu-Financial Management</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'inherit', sans-serif;
+      background: linear-gradient(135deg, #a8e6cf, #56ab2f);
+      color: #044d2b;
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #ffffffc7;
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      color: white;
+      background-color: #388e3c;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #2e7d32;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      background-color: #e8f5e9;
+      padding: 1rem;
+      border-radius: 10px;
+      color: #1b5e20;
+    }
+
+    .loading {
+      text-align: center;
+      margin-top: 1rem;
+      animation: rotate 1s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      border: 6px solid #c8e6c9;
+      border-top: 6px solid #388e3c;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 0 auto;
+    }
+
+    footer {
+      text-align: right;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #044d2b;
+    }
+
+    .ucapan {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: #dcedc8;
+      border-left: 6px solid #558b2f;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Verifikasi Sertifikat Seminar Edu-Financial Management<br>STITNU Al Farabi Pangandaran</h1>
+  </header>
+
+  <div class="container">
+    <button class="btn" onclick="toggleForm()">Verifikasi Sertifikat</button>
+    <div id="formSection" style="display:none;">
+      <input type="text" id="certificateInput" placeholder="Masukkan Nomor Sertifikat">
+      <button class="btn" onclick="verifyCertificate()">Cek Sertifikat</button>
+      <div id="loading" class="loading" style="display:none;">
+        <div class="spinner"></div>
+      </div>
+      <div id="result" class="result"></div>
+    </div>
+
+    <div class="ucapan">
+      <p><strong>Ucapan Ketua Pelaksana:</strong></p>
+      <p>“Terima kasih atas partisipasi dan antusiasme Anda dalam Seminar Edu-Financial Management STITNU Al Farabi Pangandaran. Semoga ilmu yang didapat membawa manfaat.”</p>
+      <p><strong>Ketua Pelaksana,</strong><br>Wulandari</p>
+    </div>
+  </div>
+
+  <footer>
+    Pangandaran, 11 Juli 2025
+  </footer>
+
+  <script>
+    const data = {
+      "001/MPI22.E/STITNU/7052/2025": ["Dr. KRT. Dasep Supriatna U, M.Pd.I., M.Pd.", "NARASUMBER"],
+      "002/MPI22.E/STITNU/7052/2025": ["Ahmad Hapidin, M.Pd.I.", "NARASUMBER"],
+      "003/MPI22.E/STITNU/7052/2025": ["Dr. Yanti Nurdiyanti, S.Pd.I., M.M.", "KEYNOTE SPEAKER"],
+      "004/MPI22.E/STITNU/7052/2025": ["Anisa Nurahmayanti", "PRESENTER"],
+      "005/MPI22.E/STITNU/7052/2025": ["Barizah Amalia", "PRESENTER"],
+      "006/MPI22.E/STITNU/7052/2025": ["Diah Nurlatifah", "PRESENTER"],
+      "007/MPI22.E/STITNU/7052/2025": ["Hade Yustika Prayoga", "PRESENTER"],
+      "008/MPI22.E/STITNU/7052/2025": ["Ika Rostika", "PRESENTER"],
+      "009/MPI22.E/STITNU/7052/2025": ["Indra Miftahudin", "PRESENTER"],
+      "010/MPI22.E/STITNU/7052/2025": ["Irwan", "PRESENTER"],
+      "011/MPI22.E/STITNU/7052/2025": ["Khidayat Muslim", "PRESENTER"],
+      "012/MPI22.E/STITNU/7052/2025": ["Laelatul Mutmainah", "PRESENTER"],
+      "013/MPI22.E/STITNU/7052/2025": ["Mahbubilah", "PRESENTER"],
+      "014/MPI22.E/STITNU/7052/2025": ["Mutiara Anjani", "PRESENTER"],
+      "015/MPI22.E/STITNU/7052/2025": ["Nur Aziz", "PRESENTER"],
+      "016/MPI22.E/STITNU/7052/2025": ["Sahmidin", "PRESENTER"],
+      "017/MPI22.E/STITNU/7052/2025": ["Ujang Saepul Milah", "PRESENTER"],
+      "018/MPI22.E/STITNU/7052/2025": ["Wulandari", "PRESENTER"]
+    };
+
+    function toggleForm() {
+      document.getElementById('formSection').style.display = 'block';
+    }
+
+    function verifyCertificate() {
+      const input = document.getElementById("certificateInput").value.trim();
+      const resultDiv = document.getElementById("result");
+      const loadingDiv = document.getElementById("loading");
+
+      resultDiv.innerHTML = "";
+      loadingDiv.style.display = 'block';
+
+      setTimeout(() => {
+        loadingDiv.style.display = 'none';
+        if (data[input]) {
+          const [name, role] = data[input];
+          resultDiv.innerHTML = `
+            <strong>Nama:</strong> ${name}<br>
+            <strong>Nomor:</strong> ${input}<br>
+            <strong>Status:</strong> <span style="color:green; font-weight:bold">TERVERIFIKASI</span><br>
+            <strong>Sebagai:</strong> ${role}
+          `;
+        } else {
+          resultDiv.innerHTML = `
+            <strong style="color:red">Nomor Sertifikat tidak terdaftar.</strong><br>
+            Mohon maaf nomor yang Anda masukkan tidak terdaftar.
+          `;
+        }
+      }, 1500);
+    }
+  </script>
+</body>
+
+</html>
