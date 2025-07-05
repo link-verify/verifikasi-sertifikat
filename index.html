@@ -131,6 +131,149 @@
       font-size: 0.85rem;
       color: #888;
     }
+
+    .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  text-align: center;
+  max-width: 90%;
+  width: 320px;
+  border-top: 4px solid #0288d1;
+}
+
+.popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup h4 {
+  margin: 0 0 0.5rem;
+  color: #0288d1;
+  font-size: 1.1rem;
+}
+
+.popup p {
+  margin: 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.popup button {
+  margin-top: 1rem;
+  background-color: #0288d1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.event-detail {
+  margin-top: 3rem;
+  background: linear-gradient(to bottom right, #ffffff, #f1f9ff);
+  padding: 2rem;
+  border-left: 6px solid #0288d1;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  max-width: 500px;
+  width: 90%;
+  color: #444;
+  font-size: 0.95rem;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.event-detail h3 {
+  margin-top: 0;
+  color: #0288d1;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.detail-item .icon {
+  font-size: 1.2rem;
+  color: #0288d1;
+  line-height: 1.4;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result {
+  margin-top: 1.5rem;
+  background: #e8f5e9;
+  border-left: 6px solid #43a047;
+  border-radius: 10px 0 0 10px;
+  padding: 1.5rem 2rem;
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  font-size: 1rem;
+}
+
+.result-row {
+  display: flex;
+  justify-content: start;
+  align-items: baseline;
+  margin-bottom: 0.6rem;
+}
+
+.result-row .label {
+  width: 90px;
+  font-weight: bold;
+  color: #333;
+}
+
+.result-row .value {
+  color: #222;
+  flex: 1;
+}
+
+.result-row .verified {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
   </style>
 </head>
 <body>
@@ -143,17 +286,28 @@
     <p class="subtext">Masukkan Cert ID untuk memverifikasi keikutsertaan seminar Edu-Financial STITNU Al Farabi Pangandaran.</p>
     
     <input type="text" id="certificateInput" placeholder="Masukkan Nomor Sertifikat">
-    <button onclick="verifyCertificate()">Periksa Sertifikat</button>
+    <button onclick="verifyCertificate()">Validasi Sertifikat</button>
 
     <div class="spinner" id="spinner"></div>
     <div class="result" id="result"></div>
 
-    <div class="event-detail">
-      <h3>Detail Acara</h3>
-      <p>Seminar Edu-Financial: Literasi Keuangan & Manajemen Pendidikan</p>
-      <p><strong>Tanggal:</strong> Kamis-Jumat, 10-11 Juli 2025</p>
-      <p><strong>Tempat:</strong> Auditorium STITNU Al Farabi Pangandaran</p>
-      <p><strong>Diselenggarakan oleh:</strong> Prodi MPI 22 Eksekutif</p>
+        <div class="event-detail">
+    <h3>📌 Detail Acara</h3>
+    <p style="margin-bottom: 1rem;">Seminar <strong>Edu-Financial:</strong> Literasi Keuangan & Manajemen Pendidikan</p>
+
+    <div class="detail-item">
+      <span class="icon">📅</span>
+      <span><strong>Tanggal:</strong> Kamis–Jumat, 10–11 Juli 2025</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="icon">📍</span>
+      <span><strong>Tempat:</strong> Auditorium STITNU Al Farabi Pangandaran</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="icon">👥</span>
+      <span><strong>Diselenggarakan oleh:</strong> Prodi MPI 22 Eksekutif</span>
     </div>
   </div>
 
@@ -194,33 +348,70 @@
       // Tambahkan entri lainnya sesuai kebutuhan
     };
 
-    function verifyCertificate() {
-      const input = document.getElementById("certificateInput").value.trim();
-      const spinner = document.getElementById("spinner");
-      const result = document.getElementById("result");
+    function showPopup(title, message) {
+  const popup = document.getElementById("popup");
+  document.getElementById("popupTitle").textContent = title;
+  document.getElementById("popupMessage").textContent = message;
+  popup.classList.add("show");
+}
 
-      result.classList.remove("show");
-      result.innerHTML = "";
-      spinner.style.display = "block";
+function closePopup() {
+  document.getElementById("popup").classList.remove("show");
+}
 
-      setTimeout(() => {
-        spinner.style.display = "none";
-        if (data[input]) {
-          const [nama, sebagai] = data[input];
-          result.innerHTML = `
-            <strong>Nama:</strong> ${nama}<br>
-            <strong>Nomor:</strong> ${input}<br>
-            <strong>Status:</strong> <span style="color:green;font-weight:bold">TERVERIFIKASI</span><br>
-            <strong>Sebagai:</strong> ${sebagai}
-          `;
-        } else {
-          result.innerHTML = `<span style="color:red;font-weight:bold">Nomor Sertifikat tidak terdaftar.</span><br>
-          Mohon periksa kembali nomor sertifikat yang Anda masukkan.`;
-        }
-        result.classList.add("show");
-      }, 1000); // 1 detik
+function verifyCertificate() {
+  const input = document.getElementById("certificateInput").value.trim();
+  const spinner = document.getElementById("spinner");
+  const result = document.getElementById("result");
+
+  const MIN_LENGTH = "001/MPI22.E/STITNU/7052/2025".length;
+
+  result.classList.remove("show");
+  result.innerHTML = "";
+
+  if (input === "") {
+    showPopup("Form Kosong", "Silakan masukkan nomor sertifikat terlebih dahulu.");
+    return;
+  }
+
+  if (input.length < MIN_LENGTH) {
+    showPopup("Nomor Tidak Lengkap", `Nomor sertifikat terlalu pendek. Panjang minimal ${MIN_LENGTH} karakter.`);
+    return;
+  }
+
+  spinner.style.display = "block";
+
+  setTimeout(() => {
+    spinner.style.display = "none";
+
+    if (data[input]) {
+      const [nama, sebagai] = data[input];
+      result.innerHTML = `
+        <strong>Nama:</strong> ${nama}<br>
+        <strong>Nomor:</strong> ${input}<br>
+        <strong>Status:</strong> <span style="color:green;font-weight:bold">TERVERIFIKASI</span><br>
+        <strong>Sebagai:</strong> ${sebagai}
+      `;
+    } else {
+      result.innerHTML = `<span style="color:red;font-weight:bold">Nomor Sertifikat tidak terdaftar.</span><br>
+      Mohon periksa kembali nomor yang Anda masukkan.`;
     }
+
+    result.classList.add("show");
+  }, 1000);
+}
+result.innerHTML = `
+  <span class="unverified">❌ Nomor Sertifikat tidak terdaftar.</span><br>
+  Mohon periksa kembali nomor yang Anda masukkan.
+`;
   </script>
+
+<div id="popup" class="popup">
+  <h4 id="popupTitle">Peringatan</h4>
+  <p id="popupMessage">Pesan akan tampil di sini</p>
+  <button onclick="closePopup()">Tutup</button>
+</div>
+
 
 </body>
 </html>
